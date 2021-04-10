@@ -14,9 +14,7 @@ public class Shopping {
             String line;
             while((line = br.readLine()) != null) {
                 makeBills(line);
-            }
-System.out.println("Kész. Bills: "+ bills.size());
-System.out.println(bills.get(0).toString());
+            }  //System.out.println("Kész. Bills: "+ bills.size());
         }catch (IOException ioe) {
             throw new IllegalStateException("Cannot read file", ioe);}
     }
@@ -79,18 +77,20 @@ System.out.println(bills.get(0).toString());
     }
 
     private List<Item> sortingItemsList(Sorter sorter, List<Item> result) {
-        Comparator<Item> priceComparator = new Comparator<Item>() {
-            @Override
-            public int compare(Item o1, Item o2) {
-                return o1.getPrice() - o2.getPrice();
-            }
-        };
-        Comparator<Item> abcComparator = new Comparator<Item>() {
-            @Override
-            public int compare(Item o1, Item o2) {
-                return o1.getProduct().compareTo(o2.getProduct());
-            }
-        };
+        Comparator<Item> priceComparator = (o1, o2) -> o1.getPrice() - o2.getPrice();
+//        Comparator<Item> priceComparator = new Comparator<Item>() {
+//            @Override
+//            public int compare(Item o1, Item o2) {
+//                return o1.getPrice() - o2.getPrice();
+//            }
+//        };
+        Comparator<Item> abcComparator = (o1, o2) -> o1.getProduct().compareTo(o2.getProduct());
+//        Comparator<Item> abcComparator = new Comparator<Item>() {
+//            @Override
+//            public int compare(Item o1, Item o2) {
+//                return o1.getProduct().compareTo(o2.getProduct());
+//            }
+//        };
 
         if(sorter == Sorter.PRICE){
             result.sort(priceComparator);
@@ -117,7 +117,7 @@ System.out.println(bills.get(0).toString());
         for(Bill b : bills){
             for (Item i : b.getItems()){
                 String product = i.getProduct();
-                if(!result.keySet().contains(product)){
+                if(!result.containsKey(product)){
                     result.put(product, 1);
                 } else {
                     result.put( product, result.get(product) + 1 );

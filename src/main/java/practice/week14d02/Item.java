@@ -1,8 +1,8 @@
 package practice.week14d02;
 
 public class Item {
-    private String product;
-    private int price;
+    private final String product;
+    private final int price;
 
     public Item(String product, int price) {
         this.product = product;

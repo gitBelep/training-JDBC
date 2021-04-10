@@ -1,12 +1,11 @@
 package practice.week14d02;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Bill {
-    private String customer;
-    private String basket;
-    List<Item> items = new ArrayList<>();
+    private final String customer;
+    private final String basket;
+    private final List<Item> items;
 
     public Bill(String customer, String basket, List<Item> items) {
         this.customer = customer;
