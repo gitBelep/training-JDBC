@@ -8,10 +8,9 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
 import java.util.List;
 
-public class GGermanToHun extends Game implements ActionListener {
-    private JLabel lNameOfGame;
+public class GHunToGerman extends Game implements ActionListener {
     private JLabel lChallenge;
-    private JTextField germanTextField;
+    private JTextField hunTextField;
     private JButton b;
     private JLabel lOk;
     private JLabel lOkCounter;
@@ -26,30 +25,26 @@ public class GGermanToHun extends Game implements ActionListener {
     private boolean newRound = false;
     private final FileOperations fo;
 
-    public GGermanToHun(FileOperations fo) {
+    public GHunToGerman(FileOperations fo) {
         this.fo = fo;
-        initGGermanToHun();
+        initGHunToGerman();
         playOneWord();
     }
 
-    private void initGGermanToHun(){
-        setFrameIcon(new ImageIcon("c:\\NemetNeveloGyakorlo\\img\\kak.png"));
-        setTitle("    Német Szó Névelővel                    ");
-        lNameOfGame = new JLabel("                              Elfogadható megoldások: der Vater / derVater / Der Vater / DerVater / rVater");
-        lNameOfGame.setBounds(10, 10, 700, 20);
-        lNameOfGame.setFont(new Font("Arial", Font.BOLD, 12));
-        add(lNameOfGame);
+    private void initGHunToGerman(){
+        setFrameIcon(new ImageIcon("c:\\NemetNeveloGyakorlo\\img\\hal-k.png"));
+        setTitle("          Magyar Szó Névelő Nélkül                    ");
 
         lChallenge = new JLabel();
         lChallenge.setBounds(20, 60, 200, 30);
         lChallenge.setFont(new Font("Arial", Font.PLAIN, 18));
         add(lChallenge);
 
-        germanTextField = new JTextField();              // in
-        germanTextField.setBounds(230, 60, 290, 30);
-        germanTextField.setFont(new Font("Arial", Font.PLAIN, 18));
-        germanTextField.addActionListener(this);      //hozzáadom a figyelőt
-        add(germanTextField);
+        hunTextField = new JTextField();              // in
+        hunTextField.setBounds(230, 60, 290, 30);
+        hunTextField.setFont(new Font("Arial", Font.PLAIN, 18));
+        hunTextField.addActionListener(this);
+        add(hunTextField);
 
         lOk = new JLabel("Helyes: ");
         lOk.setBounds(20, 125, 250, 40);
@@ -64,10 +59,10 @@ public class GGermanToHun extends Game implements ActionListener {
         b = new JButton("Kész");
         b.setBounds(230, 125, 102, 40);
         b.setFont(new Font("Arial", Font.BOLD, 18));
-        b.addActionListener(this);  //hozzáadom a figyelőt a gombhoz
+        b.addActionListener(this);
         add(b);
 
-        separatorLabel = new JLabel("");          // elválasztóvonalként
+        separatorLabel = new JLabel("");
         separatorLabel.setBounds(1, 220, 520, 3);
         Border border = BorderFactory.createLineBorder(Color.CYAN);
         separatorLabel.setBorder(border);
@@ -82,11 +77,11 @@ public class GGermanToHun extends Game implements ActionListener {
         area = new JTextArea();
         area.setBounds(20,265, 500,450);
         area.setFont(new Font("Courier New", Font.BOLD, 18));
-        area.setForeground(new Color(20, 120, 80));
+        area.setForeground(new Color(20, 100, 80));
         area.setBackground(new Color(150, 250, 250));
         add(area);
 
-        Color c = new Color(190,75,100);
+        Color c = new Color(55,200,60);
         setSize(800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setBackground(c);
@@ -108,8 +103,8 @@ public class GGermanToHun extends Game implements ActionListener {
             closeInternalFrame();
             return;
         }
-        checkAnswer(germanTextField.getText());
-        germanTextField.setText("");
+        checkAnswer(hunTextField.getText());
+        hunTextField.setText("");
         if (newRound){
             newRound = false;
             return;
@@ -135,30 +130,13 @@ public class GGermanToHun extends Game implements ActionListener {
         fo.notingResults(rightAnswerCounter, Menu.SELECTED_DictFile.getName(), Menu.SELECTED_GameArt, Menu.USER_NAME);
     }
 
-    private void checkAnswer(String wholeAnswer){
-        if(wholeAnswer == null || wholeAnswer.trim().length() <= 2){
+    private void checkAnswer(String answerHun){
+        if(answerHun == null || answerHun.trim().length() <= 1){
             ProblemPopUp pp = new ProblemPopUp("Answer is not valid, too short. Try again!");
             newRound = true;
             return;
         }
-        String answer = wholeAnswer.trim();
-        String answerArticle = "";
-        String answerGerman = "";
-        String answerStart = answer.substring(0,1);
-
-        if(answerStart.equalsIgnoreCase("d")){
-            answerArticle = answer.substring(2,3); // Der/die/das -> r/e/s
-            answerGerman = answer.substring(3).trim(); //should start with Uppercase
-        }
-
-        String articles = "res";
-        if(articles.contains(answerStart)){
-            answerArticle = answer.substring(0,1); //r/e/s
-            answerGerman = answer.substring(1).trim();
-        }
-
-        if(answerArticle.equals(actualWord.getArticle())
-                && answerGerman.equals(actualWord.getGermanWord())){
+        if(answerHun.trim().equalsIgnoreCase(actualWord.getHunWord())){
             rightAnswerCounter++;
             lastAnswerWasRight = true;
         } else {
@@ -168,7 +146,7 @@ public class GGermanToHun extends Game implements ActionListener {
 
     private void playOneWord(){
         actualWord = words.get(words.size()-1);
-        lChallenge.setText(actualWord.getHunWord() +":");
+        lChallenge.setText(actualWord.getArticle() +" "+ actualWord.getGermanWord());
         words.remove(words.size()-1);
     }
 

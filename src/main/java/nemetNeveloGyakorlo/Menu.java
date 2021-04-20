@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Menu extends JFrame implements ActionListener {
-    private JDesktopPane desktop;
+    private final JDesktopPane desktop;
     private JLabel userNameInstruction;
     private JTextField userNameTextField;
     private JButton userButton;
@@ -19,22 +19,21 @@ public class Menu extends JFrame implements ActionListener {
     private List<JLabel> labels = new ArrayList<>();
     private List<File> dictionaryList;
     private List<String> dictionaryNameList = new ArrayList<>();
-    private int posElementsOnTheBottom = 275; //separator and below
-    private int posElementsOnTheRight = 555;
+    private final int posElementsOnTheBottom = 275; //separator and below
+    private final int posElementsOnTheRight = 555;
+    private final FileOperations fo = new FileOperations();
     static JLabel infoSelectedDict;
     static File SELECTED_DictFile;
     static GameType SELECTED_GameArt;
     static String USER_NAME = "";
-    FileOperations fo = new FileOperations();
 
     public Menu() {       //konstruktor
         super("Német névelőgyakorló  by dd");
         Image icon = Toolkit.getDefaultToolkit().getImage("c:\\NemetNeveloGyakorlo\\img\\kekLang.png");
         setIconImage(icon);
 
-        int inset = 10;   //Make the big window be indented X pixels from the edge of the screen.
-        //Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds(inset, inset, 800, 800); //screenSize.width-inset*2,screenSize.height-inset*2);
+        int inset = 10;   //window indented X pixels from the edge of the screen.
+        setBounds(inset, inset, 806, 800);
 
         desktop = new JDesktopPane();  //Set up the GUI
         setContentPane(desktop);
@@ -168,21 +167,17 @@ public class Menu extends JFrame implements ActionListener {
         int place = dictButtons.indexOf(source);
         SELECTED_DictFile = dictionaryList.get(place);
         infoSelectedDict.setText(dictionaryNameList.get(place));
-        //System.out.println(dictionaryList.get(place).getName() +" "+ dictionaryNameList.get(place));
     }
 
     private void setGameArt(Object source){
         if (source.equals(gameButtons.get(0))) {
             SELECTED_GameArt = GameType.GERMAN_TO_HUN;
-            //System.out.println("Game GGermanToHun");
         }
         if (source.equals(gameButtons.get(1))) {
             SELECTED_GameArt = GameType.ARTICLE_TO_GERMAN;
-            //System.out.println("Game GArticleToGerman");
         }
         if (source.equals(gameButtons.get(2))) {
             SELECTED_GameArt = GameType.HUN_TO_GERMAN;
-            //System.out.println("Game GHunToGerman");
         }
     }
 
@@ -222,7 +217,7 @@ public class Menu extends JFrame implements ActionListener {
     }
 
     private void fillDictionaryNameList(){
-        if (dictionaryList.size() == 0){
+        if (dictionaryList.isEmpty()){
             throw new IllegalStateException("Dictionary is empty");
         }
         for (File f : dictionaryList) {
@@ -252,7 +247,6 @@ public class Menu extends JFrame implements ActionListener {
         menuFrame.setLayout(null);
         menuFrame.setVisible(true);
     }
-//    private void quit() {  System.exit(0);  }
 
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(Menu::createAndShowGUI);

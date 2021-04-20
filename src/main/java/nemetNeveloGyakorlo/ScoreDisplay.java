@@ -8,27 +8,25 @@ import java.beans.PropertyVetoException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.List;
 
 public class ScoreDisplay extends JInternalFrame implements ActionListener {
-    private Container contentPane;
+    private final Container contentPane;
+    private final Color color1 = new Color(20, 110, 200, 90);
+    private final Color color2 = new Color(25, 170, 120, 90);
+    private final FileOperations fo;
     private JPanel panel1;
     private JButton button;
     private JPanel panel2;
     private JPanel panel3;
-    private Color color1 = new Color(20, 110, 200, 90);
-    private Color color2 = new Color(25, 170, 120, 90);
-    FileOperations fo;
 
     public ScoreDisplay(FileOperations fo) {
         this.fo = fo;
-//        " Dicsőségtábla "
-//        Image icon = Toolkit.getDefaultToolkit().getImage("c:\\NemetNeveloGyakorlo\\img\\data-mining2.png");
+        setFrameIcon(new ImageIcon("c:\\NemetNeveloGyakorlo\\img\\data-mining_40x39.png"));
+        setTitle("    Dicsőségtábla                   ");
         contentPane = this.getContentPane();
         contentPane.setVisible(true);
         contentPane.setBackground(new Color(150,200,200,140));
-
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    //    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addPanels();
         addComponentsToPanel1();
         addComponentsToPanel2();
@@ -42,9 +40,7 @@ public class ScoreDisplay extends JInternalFrame implements ActionListener {
         contentPane.setLayout(new GridBagLayout());
         GridBagConstraints cc = new GridBagConstraints();
 
-        panel1 = new JPanel()
-        //       { @Override  public Dimension getPreferredSize() {return new Dimension(750,300); }}
-        ;
+        panel1 = new JPanel();
         panel1.setVisible(true);
         cc.ipady = 47;
         cc.fill = GridBagConstraints.HORIZONTAL;

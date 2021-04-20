@@ -15,11 +15,6 @@ public class FileOperations {
     static List<Result> OLD_RESULTS;
     static List<BestPlayer> BEST_PLAYERS = new ArrayList<>();
 
-    public FileOperations() {
-        gainOldScores();
-        gainBestPlayers();
-    }
-
 //Make Word-list for the game   *   *   *
     public List<Word> provideWordList() {
         List<Word> allWords = readDictFile();
@@ -160,6 +155,9 @@ public class FileOperations {
 
 //Overwrite with the new scores    *   *   *
     public void notingResults(int points, String dict, GameType gameArt, String name) {
+        gainOldScores();
+        gainBestPlayers();
+
         Result actual = new Result(points, dict.substring(2, dict.lastIndexOf(".")), gameArt, name, LocalDateTime.now());
         if (OLD_RESULTS == null) {
             OLD_RESULTS = new ArrayList<>();
