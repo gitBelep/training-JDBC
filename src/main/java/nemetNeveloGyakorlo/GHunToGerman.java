@@ -32,7 +32,7 @@ public class GHunToGerman extends Game implements ActionListener {
     }
 
     private void initGHunToGerman(){
-        setFrameIcon(new ImageIcon("c:\\NemetNeveloGyakorlo\\img\\hal-k.png"));
+        setFrameIcon(new ImageIcon("c:\\NemetNeveloGyakorlo\\img\\i_hal.png"));
         setTitle("          Magyar Szó Névelő Nélkül                    ");
 
         lChallenge = new JLabel();
@@ -92,7 +92,7 @@ public class GHunToGerman extends Game implements ActionListener {
             words = fo.provideWordList();
             roundSum = words.size();
         } catch(IllegalStateException e){
-            ProblemPopUp pp = new ProblemPopUp(e.getMessage());
+            new ProblemPopUp(e.getMessage());
             closeInternalFrame();
         }
     }
@@ -121,7 +121,7 @@ public class GHunToGerman extends Game implements ActionListener {
     }
 
     private void saveAndSonic(){
-        Icon iccon = new ImageIcon(FileOperations.PATH_STR + "\\img\\sonic-kor_102x102.png");
+        Icon iccon = new ImageIcon(FileOperations.PATH_STR + "\\img\\sonic-end.png");
         b.setText(" Rohanás innen VISSZA");
         b.setBounds(230, 114, 350, 102);
         b.setIcon(iccon);
@@ -132,7 +132,7 @@ public class GHunToGerman extends Game implements ActionListener {
 
     private void checkAnswer(String answerHun){
         if(answerHun == null || answerHun.trim().length() <= 1){
-            ProblemPopUp pp = new ProblemPopUp("Answer is not valid, too short. Try again!");
+            new ProblemPopUp("Answer is not valid, too short. Try again!");
             newRound = true;
             return;
         }
@@ -157,7 +157,7 @@ public class GHunToGerman extends Game implements ActionListener {
         try {
             this.setClosed(true);
         } catch (PropertyVetoException e) {
-            ProblemPopUp pp = new ProblemPopUp("Please restart!");
+            new ProblemPopUp("Please restart!");
         }
     }
 

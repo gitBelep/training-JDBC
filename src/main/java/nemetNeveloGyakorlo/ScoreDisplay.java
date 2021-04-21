@@ -21,7 +21,7 @@ public class ScoreDisplay extends JInternalFrame implements ActionListener {
 
     public ScoreDisplay(FileOperations fo) {
         this.fo = fo;
-        setFrameIcon(new ImageIcon("c:\\NemetNeveloGyakorlo\\img\\data-mining_40x39.png"));
+        setFrameIcon(new ImageIcon("c:\\NemetNeveloGyakorlo\\img\\i_ScoreDisplay.png"));
         setTitle("    Dicsőségtábla                   ");
         contentPane = this.getContentPane();
         contentPane.setVisible(true);

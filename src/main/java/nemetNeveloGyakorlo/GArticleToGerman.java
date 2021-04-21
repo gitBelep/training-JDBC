@@ -34,7 +34,7 @@ public class GArticleToGerman extends Game implements ActionListener {
     }
 
     private void initGArticleToGerman(){
-        setFrameIcon(new ImageIcon("c:\\NemetNeveloGyakorlo\\img\\fogaskerek-k.png"));
+        setFrameIcon(new ImageIcon("c:\\NemetNeveloGyakorlo\\img\\i_fogaskerek.png"));
         setTitle("    Névelő Német Szóhoz                    ");
 
         lChallenge = new JLabel();
@@ -104,7 +104,7 @@ public class GArticleToGerman extends Game implements ActionListener {
             words = fo.provideWordList();
             roundSum = words.size();
         } catch(IllegalStateException e){
-            ProblemPopUp pp = new ProblemPopUp(e.getMessage());
+            new ProblemPopUp(e.getMessage());
             closeInternalFrame();
         }
     }
@@ -132,7 +132,7 @@ public class GArticleToGerman extends Game implements ActionListener {
     }
 
     private void saveAndSonic(){
-        Icon iccon = new ImageIcon(FileOperations.PATH_STR + "\\img\\sonic-kor_102x102.png");
+        Icon iccon = new ImageIcon(FileOperations.PATH_STR + "\\img\\sonic-end.png");
         b.setText(" Rohanás innen VISSZA");
         b.setBounds(240, 114, 350, 102);
         b.setIcon(iccon);
@@ -177,7 +177,7 @@ public class GArticleToGerman extends Game implements ActionListener {
         try {
             this.setClosed(true);
         } catch (PropertyVetoException e) {
-            ProblemPopUp pp = new ProblemPopUp("Please restart!");
+            new ProblemPopUp("Please restart!");
         }
     }
 

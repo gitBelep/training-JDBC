@@ -2,15 +2,19 @@ package nemetNeveloGyakorlo;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
-public class Menu extends JFrame implements ActionListener {
-    private final JDesktopPane desktop;
+public class Menu extends JFrame implements ActionListener, MouseListener {
+    private final JDesktopPane desktopPane;
     private JLabel userNameInstruction;
     private JTextField userNameTextField;
     private JButton userButton;
@@ -22,21 +26,31 @@ public class Menu extends JFrame implements ActionListener {
     private final int posElementsOnTheBottom = 275; //separator and below
     private final int posElementsOnTheRight = 555;
     private final FileOperations fo = new FileOperations();
+    private JSeparator verticalSeparator1;
+    private JSeparator verticalSeparator2;
+    private JLabel separatorLabel1;
+    private JLabel separatorLabel2;
+    private int r = 255;
+    private int g = 165;
+    private int b = 1;
+    private Color color = new Color(r,g,b);   //Color.ORANGE
+    private Border border = BorderFactory.createLineBorder(color);
     static JLabel infoSelectedDict;
     static File SELECTED_DictFile;
     static GameType SELECTED_GameArt;
     static String USER_NAME = "";
+    static Image image;
 
     public Menu() {       //konstruktor
-        super("Német névelőgyakorló  by dd");
-        Image icon = Toolkit.getDefaultToolkit().getImage("c:\\NemetNeveloGyakorlo\\img\\kekLang.png");
-        setIconImage(icon);
+        super("  Német névelőgyakorló  by dd        ");
+        image = Toolkit.getDefaultToolkit().getImage("c:\\NemetNeveloGyakorlo\\img\\i_kekLang.png");
+        setIconImage(image);
 
         int inset = 10;   //window indented X pixels from the edge of the screen.
         setBounds(inset, inset, 806, 800);
 
-        desktop = new JDesktopPane();  //Set up the GUI
-        setContentPane(desktop);
+        desktopPane = new JDesktopPane();  //Set up the GUI
+        setContentPane(desktopPane);
         setupList();
 
         userNameInstruction = new JLabel("Add meg a neved:");
@@ -53,9 +67,8 @@ public class Menu extends JFrame implements ActionListener {
         userButton.setBounds(430, 10, 110, 35);
         setButtonFontAndAdd(List.of(userButton));
 
-        JLabel separatorLabel2 = new JLabel("");
+        separatorLabel2 = new JLabel("");
         separatorLabel2.setBounds(4, 55, 535, 3);
-        Border border = BorderFactory.createLineBorder(Color.ORANGE);
         separatorLabel2.setBorder(border);
         add(separatorLabel2);
 
@@ -71,17 +84,19 @@ public class Menu extends JFrame implements ActionListener {
         }
         setButtonFontAndAdd(gameButtons);
 
-        JLabel separatorLabel1 = new JLabel("");
+        separatorLabel1 = new JLabel("");
         separatorLabel1.setBounds(4, posElementsOnTheBottom -10, 535, 3);
         separatorLabel1.setBorder(border);
         add(separatorLabel1);
 
         JLabel instruction4 = new JLabel("Melyik gyűlyteményt kérdezzem ki?");
         instruction4.setBounds(20, posElementsOnTheBottom, 350, 30);
+        instruction4.addMouseListener(this);                             //MouseListener
         labels.add(instruction4);
 
         JLabel info1 = new JLabel("Kiválasztva:");
         info1.setBounds(250, posElementsOnTheBottom +40, 150, 30);
+        info1.addMouseListener(this);
         labels.add(info1);
 
         infoSelectedDict = new JLabel(" \"még semmi\" ");
@@ -89,11 +104,11 @@ public class Menu extends JFrame implements ActionListener {
         infoSelectedDict.setFont(new Font("Arial", Font.ITALIC, 16));
         add(infoSelectedDict);
 
-        JSeparator verticalSeparator1 = new JSeparator();
+        verticalSeparator1 = new JSeparator();
         verticalSeparator1.setBounds(posElementsOnTheRight,10,2,600);
         verticalSeparator1.setBorder(border);
         add(verticalSeparator1);
-        JSeparator verticalSeparator2 = new JSeparator();
+        verticalSeparator2 = new JSeparator();
         verticalSeparator2.setBounds(posElementsOnTheRight+2,11,2,601);
         verticalSeparator2.setBorder(border);
         add(verticalSeparator2);
@@ -132,7 +147,7 @@ public class Menu extends JFrame implements ActionListener {
         if(SELECTED_GameArt != null && SELECTED_DictFile != null && USER_NAME.trim().length() > 0){
             startGame();
         }
-    }
+     }
 
     private void showScores(){
         ScoreDisplay scoreDisplay = new ScoreDisplay(fo);
@@ -181,28 +196,80 @@ public class Menu extends JFrame implements ActionListener {
         }
     }
 
-//Let's play
+//MouseEvents
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        if(r > 230) {
+            r -= 1;
+        }
+        if(g > 11) {
+            g -= 5;
+        }
+        if(b < 180) {
+            b += 4;
+        }
+        color = new Color(r,g,b);
+        border = BorderFactory.createLineBorder(color);
+        separatorLabel1.setBorder(border);
+        separatorLabel2.setBorder(border);
+        verticalSeparator1.setBorder(border);
+        verticalSeparator2.setBorder(border);
+    }
+    @Override
+    public void mouseClicked(MouseEvent e) { }
+    @Override
+    public void mousePressed(MouseEvent e) { }
+    @Override
+    public void mouseReleased(MouseEvent e) { }
+    @Override
+    public void mouseExited(MouseEvent e) { }
+
+    //Let's play
     private void startGame(){
         Game game = new Game();
         if(SELECTED_GameArt ==GameType.GERMAN_TO_HUN){
             game = new GGermanToHun(fo);
+            image = Toolkit.getDefaultToolkit().getImage("c:\\NemetNeveloGyakorlo\\img\\i_GermanToHun.png");
+            setIconImage(image);
         }
         if(SELECTED_GameArt == GameType.ARTICLE_TO_GERMAN){
+            image = Toolkit.getDefaultToolkit().getImage("c:\\NemetNeveloGyakorlo\\img\\i_ArticleToGerman.png");
+            setIconImage(image);
             game = new GArticleToGerman(fo);
         }
         if(SELECTED_GameArt == GameType.HUN_TO_GERMAN){
+            image = Toolkit.getDefaultToolkit().getImage("c:\\NemetNeveloGyakorlo\\img\\i_HunToGerman.png");
+            setIconImage(image);
             game = new GHunToGerman(fo);
         }
         createInternalFrame(game);
+        System.out.println("Menu 146: megáll-e a create-nél? Nem mi?");
     }
 
     private void createInternalFrame(JInternalFrame internalFrame) {
         internalFrame.setVisible(true);
-        desktop.add(internalFrame);
+        desktopPane.add(internalFrame);
+        internalFrame.addInternalFrameListener(new InternalFrameAdapter(){
+            @Override
+            public void internalFrameClosing(InternalFrameEvent e) {
+                    setIconImage(Toolkit.getDefaultToolkit().getImage(
+                            "c:\\NemetNeveloGyakorlo\\img\\i_kekLang.png"));
+                    r = 255;
+                    g = 165;
+                    b = 1;
+                    color = new Color(r,g,b);
+                    border = BorderFactory.createLineBorder(color);
+                    separatorLabel1.setBorder(border);
+                    separatorLabel2.setBorder(border);
+                    verticalSeparator1.setBorder(border);
+                    verticalSeparator2.setBorder(border);
+                }
+        });
+
         try {
             internalFrame.setSelected(true);
         } catch (java.beans.PropertyVetoException e) {
-           ProblemPopUp pp = new ProblemPopUp("Cannot create Game. Please restart!");
+           new ProblemPopUp("Cannot create Game. Please restart!");
         }
     }
 
